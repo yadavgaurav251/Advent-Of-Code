@@ -625,6 +625,114 @@ for (char i = 'a'; i <= 'z'; i++)
 }
 cout << count << endl;
 ```
+## Day 7: Handy Haversacks
+
+[Problem Statement](https://adventofcode.com/2020/day/7)
+
+#### Part One -
+
+The tricky part is to get data into correct form after that we can just look at the whole problem as a graph problem.We find list of bags starting from the colors which contain "shiny gold" and then subsequently find these bags in the list again till we can't find anymore unique bag which can contain "shiny gold" bag.
+#### Part Two - 
+
+The bags will behave like a tree ( wont contain a cycle or else the answer would have become infinity) . So we just traverse the tree starting from "shiny gold" to all its children while counting their counts ( like DFS ).
+
+```cpp
+int totalbags(string node, map<string, map<string, int>> &adj)
+{
+    int count = 0;
+    if (adj[node].empty())
+        return 0;
+    else
+    {
+        for (auto x : adj[node])
+        {
+            count += x.second * (1 + totalbags(x.first, adj));
+        }
+    }
+    return count;
+}
+
+void Solve()
+{
+    string s;
+    map<string, map<string, int>> adj;
+    vector<string> allbags;
+    while (getline(cin, s))
+    {
+        int loc = s.find("bags");
+        string curr = s.substr(0, loc - 1);
+        map<string, int> listofbags;
+        bool flag1 = false, flag2 = false;
+        string bagname;
+        int bagcount = 0;
+        for (int i = loc; i < s.size() - 3; i++)
+        {
+
+            if (s[i] == ' ')
+            {
+                if (s[i + 1] == 'b' && s[i + 2] == 'a' && s[i + 3] == 'g')
+                {
+                    listofbags[bagname] = bagcount;
+                    bagname = "";
+                    flag1 = false;
+                }
+            }
+            if (flag1)
+                bagname += s[i];
+
+            if (isdigit(s[i]))
+            {
+                bagcount = s[i] - '0';
+                flag1 = true;
+                i++;
+            }
+        }
+        adj[curr] = listofbags;
+        allbags.emplace_back(curr);
+    }
+
+    // PART ONE -
+
+    int count = 0;
+    queue<string> q;
+    set<string> cancontain;
+    for (auto x : allbags)
+    {
+        if (adj[x].count("shiny gold"))
+        {
+            if (cancontain.count(x) == 0)
+                q.push(x);
+            cancontain.insert(x);
+            q.push(x);
+        }
+    }
+    while (!q.empty())
+    {
+        string head = q.front();
+        q.pop();
+
+        for (auto x : allbags)
+        {
+            if (adj[x].count(head))
+            {
+                if (cancontain.count(x) == 0)
+                    q.push(x);
+                cancontain.insert(x);
+            }
+        }
+    }
+    cout << cancontain.size()<<endl;
+
+    // PART TWO -
+    count = 0;
+    string first = "shiny gold";
+    count = totalbags(first, adj);
+    cout << count << endl;
+}
+```
+
+
+
 ## 🤝&nbsp; Found a bug? Have a better solution ?
 
 Feel free to **file a new issue** with a respective title and description on the the   [yadavgaurav251/Advent-Of-Code](https://github.com/yadavgaurav251/Advent-Of-Code) repository. If you already found a solution to your problem, **I would love to review your pull request**! 
