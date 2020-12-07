@@ -1,4 +1,5 @@
 # Advent-Of-Code  ☃️&nbsp;🎄&nbsp;
+[![GitHub stars](https://img.shields.io/github/stars/yadavgaurav251/Advent-Of-Code?style=social&label=Star&maxAge=2592000)](https://GitHub.com/Naereen/StrapDown.js/stargazers/) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [![HitCount](http://hits.dwyl.com/yadavgaurav251/Advent-Of-Code.svg)](http://hits.dwyl.com/yadavgaurav251/Advent-Of-Code)
 
 ## 🤔&nbsp; What is Advent Of Code 
 
@@ -6,7 +7,11 @@ Advent of Code is an Advent calendar of small programming puzzles for a variety 
 
 You don't need a computer science background to participate - just a little programming knowledge and some problem solving skills will get you pretty far. Nor do you need a fancy computer; every problem has a solution that completes in at most 15 seconds on ten-year-old hardware.
 
+## Feel Free To Ask Any Doubts
+Ask any doubt related to Advent Of Code like logic, code, understanding the question, etc by creating a Issue with Doubt label on [yadavgaurav251/Advent-Of-Code](https://github.com/yadavgaurav251/Advent-Of-Code) repository. And I will try to resolve them to the best of my abilities.
+
 ## 🦠&nbsp; 2020 - 
+
 ## Day 1: Report Repair
 [Problem Statement](https://adventofcode.com/2020/day/1)
 #### Part One - 
@@ -730,8 +735,6 @@ void Solve()
     cout << count << endl;
 }
 ```
-
-
 
 ## 🤝&nbsp; Found a bug? Have a better solution ?
 
