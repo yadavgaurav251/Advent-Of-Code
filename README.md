@@ -195,7 +195,7 @@ while (cin >> s)
 
 int m = v[0].size(), n = v.size();
 vi ans(5);
-vector<pair<int,int>> mov={ {1,1},{1,3,},{1,5},{1,7},{2,1} };
+vector<pair<int, int>> mov = {{1, 1}, {1, 3}, {1, 5}, {1, 7}, {2, 1}};
 for (int k = 0; k < 5; k++)
 {
     int count = 0;
@@ -209,12 +209,12 @@ for (int k = 0; k < 5; k++)
         j += mov[k].second;
         j %= m;
     }
-    ans[k]=count;
+    ans[k] = count;
 }
-long long total=1;
-for(auto x:ans)
-    total*=x;
-cout<<total<<endl;
+ll total = 1;
+for (auto x : ans)
+    total *= x;
+cout << total << endl;
 ```
 ## Day 4: Passport Processing
 
