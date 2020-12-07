@@ -1,5 +1,5 @@
 # Advent-Of-Code  ☃️&nbsp;🎄&nbsp;
-[![GitHub stars](https://img.shields.io/github/stars/yadavgaurav251/Advent-Of-Code?style=social&label=Star&maxAge=2592000)](https://GitHub.com/Naereen/StrapDown.js/stargazers/) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [![HitCount](http://hits.dwyl.com/yadavgaurav251/Advent-Of-Code.svg)](http://hits.dwyl.com/yadavgaurav251/Advent-Of-Code)
+[![GitHub stars](https://img.shields.io/github/stars/yadavgaurav251/Advent-Of-Code?style=social&label=Star&maxAge=2592000)](https://GitHub.com/Naereen/StrapDown.js/stargazers/)&nbsp;&nbsp;  [![HitCount](http://hits.dwyl.com/yadavgaurav251/Advent-Of-Code.svg)](http://hits.dwyl.com/yadavgaurav251/Advent-Of-Code)
 
 ## 🤔&nbsp; What is Advent Of Code 
 
