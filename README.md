@@ -736,6 +736,213 @@ void Solve()
 }
 ```
 
+## Day 8: Handheld Halting
+
+[Problem Statement](https://adventofcode.com/2020/day/8)
+
+#### Part One -
+
+Using a struct to properly store data would make the problem a lot easier. Storing the sign will save us a tonne of headache in the code. The next thing is we need to detect if it's getting into an infinite loop. For this make a set of the structure and make sure to add an index variable in it so two same lines at different places are not treated identically. So before executing any line we check if it already present in the set, if yes then we break the loop and output the value in the accumulator.
+
+```cpp
+struct node
+{
+    string ins;
+    char sign;
+    int value;
+    int index;
+    bool operator<(const node &t) const
+    {
+        return (this->index < t.index);
+    }
+};
+
+void Solve()
+{
+    string s;
+    vector<node> v;
+    int count = 0;
+    while (getline(cin, s))
+    {
+
+        if (s.empty())
+        {
+            break;
+        }
+        else
+        {
+            stringstream st;
+            string temp;
+            for (int i = 0; i < s.length(); i++)
+            {
+                temp += s[i];
+                if (s[i] == '+' || s[i] == '-')
+                    temp += ' ';
+            }
+            st << s;
+            string ins;
+            st >> ins;
+            char sign;
+            st >> sign;
+            int value;
+            st >> value;
+            node a = {ins, sign, value, count};
+            count++;
+            v.pb(a);
+        }
+    }
+    int acc = 0;
+    set<node> checkrep;
+
+    for (int i = 0; i < v.size(); i++)
+    {
+        if(checkrep.count(v[i])==0)
+        {
+            if (v[i].ins == "acc")
+            {
+                if (v[i].sign == '+')
+                {
+                    acc += v[i].value;
+                }
+                else
+                    acc -= v[i].value;
+            }
+            if (v[i].ins == "jmp")
+            {
+                if (v[i].sign == '+')
+                {
+                    i += v[i].value;
+                }
+                else
+                    i -= v[i].value;
+                i--;
+            }
+            checkrep.insert(v[i]);
+        }
+        else
+        {
+            cout<<acc<<endl;
+            break;
+        }
+    }
+}
+
+```
+
+
+#### Part Two - 
+
+Keep changing one " jmp (to nop) or nop (to jmp)" and then check if it is still giving an infinite loop using part 1 code with some boolean flags and display the value of accumulator if there is not an infinite loop.
+
+```cpp
+struct node
+{
+    string ins;
+    char sign;
+    int value;
+    int index;
+    bool operator<(const node &t) const
+    {
+        return (this->index < t.index);
+    }
+};
+
+void Solve()
+{
+    string s;
+    vector<node> v;
+    int count = 0;
+    while (getline(cin, s))
+    {
+
+        if (s.empty())
+        {
+            break;
+        }
+        else
+        {
+            stringstream st;
+            string temp;
+            for (int i = 0; i < s.length(); i++)
+            {
+                temp += s[i];
+                if (s[i] == '+' || s[i] == '-')
+                    temp += ' ';
+            }
+            st << s;
+            string ins;
+            st >> ins;
+            char sign;
+            st >> sign;
+            int value;
+            st >> value;
+            node a = {ins, sign, value, count};
+            count++;
+            v.pb(a);
+        }
+    }
+    for (int j = 0; j < v.size(); j++)
+    {
+        bool flag = false;
+        int acc = 0;
+        string ogins = v[j].ins;
+        if (v[j].ins == "acc")
+        {
+            continue;
+        }
+        if (v[j].ins == "jmp")
+        {
+            v[j].ins = "nop";
+            flag = true;
+        }
+        else
+        {
+            v[j].ins = "jmp";
+            flag = true;
+        }
+        set<node> checkrep;
+        for (int i = 0; i < v.size(); i++)
+        {
+            if (checkrep.count(v[i]) == 0)
+            {
+                if (v[i].ins == "acc")
+                {
+                    if (v[i].sign == '+')
+                    {
+                        acc += v[i].value;
+                    }
+                    else
+                        acc -= v[i].value;
+                }
+                if (v[i].ins == "jmp")
+                {
+                    if (v[i].sign == '+')
+                    {
+                        i += v[i].value;
+                    }
+                    else
+                        i -= v[i].value;
+                    i--;
+                }
+                checkrep.insert(v[i]);
+            }
+            else
+            {
+                flag = false;
+                break;
+            }
+        }
+        if (flag)
+            cout << acc << endl;
+        else
+        {
+            v[j].ins = ogins;
+        }
+    }
+}
+```
+
+
 ## 🤝&nbsp; Found a bug? Have a better solution ?
 
 Feel free to **file a new issue** with a respective title and description on the the   [yadavgaurav251/Advent-Of-Code](https://github.com/yadavgaurav251/Advent-Of-Code) repository. If you already found a solution to your problem, **I would love to review your pull request**! 
