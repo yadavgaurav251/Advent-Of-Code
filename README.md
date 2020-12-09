@@ -1,5 +1,5 @@
 # Advent-Of-Code  ☃️&nbsp;🎄&nbsp;
-[![GitHub stars](https://img.shields.io/github/stars/yadavgaurav251/Advent-Of-Code?style=social&label=Star&maxAge=2592000)](https://GitHub.com/Naereen/StrapDown.js/stargazers/)&nbsp;&nbsp;  [![HitCount](http://hits.dwyl.com/yadavgaurav251/Advent-Of-Code.svg)](http://hits.dwyl.com/yadavgaurav251/Advent-Of-Code)
+[![GitHub stars](https://img.shields.io/github/stars/yadavgaurav251/Advent-Of-Code?style=social&label=Star&maxAge=2592000)](https://GitHub.com/yadavgaurav251/Advent-Of-Code/stargazers/)&nbsp;&nbsp;  [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fyadavgaurav251%2FAdvent-Of-Code&count_bg=%2379C83D&title_bg=%23555555&icon=deezer.svg&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
 
 ## 🤔&nbsp; What is Advent Of Code 
 
@@ -941,7 +941,85 @@ void Solve()
     }
 }
 ```
+## Day 9: Encoding Error
 
+[Problem Statement](https://adventofcode.com/2020/day/9)
+
+#### Part One -
+
+This is almost the same problem as Day 1: Report Repair or [Two Sum](https://leetcode.com/problems/two-sum/). The only thing that has changed is we need to search the value in a batch size of 25. For more detailed solution just scroll up and see solution for day 1.
+
+```cpp
+vector<long long> v;
+long long temp;
+while (cin >> temp)
+    v.emplace_back(temp);
+
+for(int i=25;i<v.size();i++)
+{
+    long long target=v[i];
+    unordered_set<int> s;
+    bool flag=false;
+    for(int j=i-25;j<i;j++)
+    {
+        if(s.count(target-v[j]))
+        {
+            flag=true;
+            break;
+        }
+        else
+        {
+            s.insert(v[j]);
+        }
+
+    }
+    if(!flag)
+        cout<<v[i]<<endl;
+}
+
+```
+
+
+#### Part Two - 
+To find a contiguous set of at least two numbers in your list which sum to the invalid number from step 1. We can use [Prefix Sum Array](https://www.geeksforgeeks.org/prefix-sum-array-implementation-applications-competitive-programming/) and use it to calculate [Range Sum Query](https://www.geeksforgeeks.org/range-sum-queries-without-updates/) in O(1) time complexity, keep changing the range of query till we don't find the "Invalid Number" from Step 1 and store the result(indexes at which the number is found) in an array. Now simply find the maximum and minimum value in this range.
+
+```cpp
+ vector<long long> v;
+long long temp;
+while (cin >> temp)
+    v.emplace_back(temp);
+
+int n = v.size();
+
+long long tofind = 507622668; // we get this value from part 1, your value may vary
+vector<long long> presum(n, 0);
+presum[0] = v[0];
+for (int i = 1; i < n; i++)
+    presum[i] = presum[i - 1] + v[i];
+
+vector<int> loc;
+for (int i = 0; i < n; i++)
+{
+    for (int j = 0; j < i; j++)
+    {
+        if ((presum[i] - presum[j]) == tofind)
+        {
+            loc.emplace_back(j);
+            loc.emplace_back(i);
+            break;
+        }
+    }
+}
+long long low = LLONG_MAX;
+long long high = LLONG_MIN;
+for (int i = loc[0]; i <= loc[1]; i++)
+{
+    low = min(low, v[i]);
+    high = max(high, v[i]);
+}
+
+cout << low + high << endl;
+```
 
 ## 🤝&nbsp; Found a bug? Have a better solution ?
 
