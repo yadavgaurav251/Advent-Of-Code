@@ -1020,6 +1020,130 @@ for (int i = loc[0]; i <= loc[1]; i++)
 
 cout << low + high << endl;
 ```
+## Day 10: Adapter Array
+
+[Problem Statement](https://adventofcode.com/2020/day/10)
+
+#### Part One -
+
+This is just basic simulation as instructed in the quesiton and storing the result.
+
+```cpp
+vector<int> v;
+int temp;
+while(cin>>temp)
+{
+    v.emplace_back(temp);
+}
+v.emplace_back(0);
+sort(v.begin(),v.end());
+v.emplace_back(v[v.size()-1]+3);
+int n=v.size();
+vector<int> dif(4,0);
+
+for(int i=0;i<n;i++)
+{
+    int j=i+1;
+    while(j<n && (v[j]-v[i]) <4 )
+    {
+       dif[v[j]-v[i]]++;
+       j++;
+       break;
+    }
+}
+cout<<dif[1]*dif[3];
+```
+
+
+#### Part Two - 
+
+Backtracking ( TLE ) - Using backtracking can work smaller value like those in example but it won't work on large input values like that provided in the input. But it still provides us with valuable insights which will help us in making DP based solution for the problem.
+```cpp
+long long total = 0;
+set<vector<int> > path;
+bool backtracking(vector<int> v, int curr, vector<int> &outlet)
+{
+    if (v.size() - 1 == curr)
+        return true;
+
+        int i=curr;
+        int j = i + 1;
+        while (j < v.size() && (v[j] - v[i]) < 4)
+        {
+            outlet.push_back(v[j]);
+            if (backtracking(v, j, outlet))
+            {
+                if (path.count(outlet) == 0)
+                {
+                    total++;
+                    path.insert(outlet);
+                }
+            }
+            j++;
+            outlet.pop_back();
+        }
+    
+    return false;
+}
+void Solve()
+{
+    vector<int> v;
+    int temp;
+    while (cin >> temp)
+    {
+        v.push_back(temp);
+    }
+    v.push_back(0);
+    sort(v.begin(), v.end());
+    v.push_back(v[v.size() - 1] + 3);
+    int n = v.size();
+    vector<int> dif(4, 0);
+    
+    int j = 0;
+    vector<int> outlet;
+    outlet.push_back(0);
+    total = 0;
+    path.clear();
+    backtracking(v, 0, outlet);
+    cout << total << endl;
+}
+```
+We can use DP here since the its has overlapping sub-problems. The DP is kinda similar to the Fibonacci DP.
+> dp[i]=dp[i-1]+dp[i-2]+dp[i-3]
+```cpp
+vector<int> v;
+int temp;
+while (cin >> temp)
+{
+    v.push_back(temp);
+}
+v.push_back(0);
+sort(v.begin(), v.end());
+v.push_back(v[v.size() - 1] + 3);
+int n = v.size();
+vector<long long> dp(n + 1, 0);
+long long sum = 1;
+int j = 0;
+dp[0] = 1;
+for (int i = 1; i < n; i++)
+{
+    if (i - 1 >= 0 && v[i] - v[i - 1] <= 3)
+    {
+        dp[i] += dp[i - 1];
+    }
+    if (i - 2 >= 0 && v[i] - v[i - 2] <= 3)
+    {
+        dp[i] += dp[i - 2];
+    }
+    if (i - 3 >= 0 && v[i] - v[i - 3] <= 3)
+    {
+        dp[i] += dp[i - 3];
+    }
+}
+cout << dp[n - 1] << endl;
+```
+
+
 
 ## 🤝&nbsp; Found a bug? Have a better solution ?
 
